@@ -4,14 +4,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/tx
-			http://www.springframework.org/schema/tx/spring-tx.xsd
 	">
 
 	<description>
@@ -28,18 +25,5 @@
 		p:url="${jdbc.url}"
 		p:username="${jdbc.username}"
 		p:password="${jdbc.password}" />
-
-	<!-- Die Transformation der Ausnahmen -->
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"
-		p:proxyTargetClass="true" />
-
-	<!-- Einen Transaktionmanager erzeugen -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		p:dataSource-ref="dataSource" />
-
-	<!-- Das Verwenden von Annotationen für die Transaktionen ermöglichen -->
-	<tx:annotation-driven proxy-target-class="true" />
 
 </beans>
