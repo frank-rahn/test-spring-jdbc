@@ -1,14 +1,22 @@
 package de.rahn.jdbc.call.dao;
 
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import de.rahn.jdbc.call.entity.Person;
 import de.rahn.jdbc.call.entity.User;
+import de.rahn.jdbc.call.mapper.PersonMapper;
+import de.rahn.jdbc.call.mapper.UserMapper;
 
 /**
  * Das DAO für die Stored Procedure.
@@ -20,6 +28,12 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	private DataSource dataSource;
 
 	private SimpleJdbcCall jdbcCall;
+
+	@Autowired
+	private UserMapper userMapper;
+
+	@Autowired
+	private PersonMapper personMapper;
 
 	/**
 	 * @param dataSource the dataSource to set
@@ -35,7 +49,11 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	@PostConstruct
 	public void initialize() {
 		jdbcCall =
-			new SimpleJdbcCall(dataSource).withFunctionName("searchPersons");
+			new SimpleJdbcCall(dataSource).withProcedureName("searchPersons")
+				.declareParameters(
+					new SqlParameter("p_user", Types.STRUCT, "s_user"),
+					new SqlOutParameter("p_persons", Types.ARRAY, "_s_person",
+						personMapper));
 
 		jdbcCall.compile();
 	}
@@ -46,8 +64,13 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	 */
 	@Override
 	public Person[] searchPersons(int num, User user) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> in = new HashMap<>();
+		in.put("p_num", 10);
+		in.put("p_user", userMapper.createSqlTypeValue(user));
+
+		Map<String, Object> out = jdbcCall.execute(in);
+
+		return (Person[]) out.get("p_persons");
 	}
 
 }
