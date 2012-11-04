@@ -1,23 +1,23 @@
 package de.rahn.jdbc.call.mapper;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Struct;
+import java.util.Date;
 
 import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
-import org.springframework.stereotype.Component;
 
-import de.rahn.jdbc.call.entity.User;
+import de.rahn.jdbc.call.entity.Person;
 
 /**
- * Mapping zwischen einer {@link Struct} und einem {@link User}.
+ * Mapping zwischen einer {@link Struct} und einem {@link Person}.
  * @author Frank W. Rahn
  */
-@Component
-public class UserMapper extends SqlParameterMapper<User> {
+public class PersonMapper extends SqlParameterMapper<Person> {
 
 	/**
 	 * {@inheritDoc}
@@ -34,12 +34,13 @@ public class UserMapper extends SqlParameterMapper<User> {
 
 		Object[] attributes = struct.getAttributes();
 
-		User user = new User();
-		user.setId((String) attributes[0]);
-		user.setName((String) attributes[1]);
-		user.setDepartment((String) attributes[2]);
+		Person person = new Person();
+		person.setId((Long) attributes[0]);
+		person.setName((String) attributes[1]);
+		person.setSalary((BigDecimal) attributes[2]);
+		person.setDateOfBirth((Date) attributes[3]);
 
-		return user;
+		return person;
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class UserMapper extends SqlParameterMapper<User> {
 	 * @see SqlParameterMapper#createSqlTypeValue(Object)
 	 */
 	@Override
-	public SqlTypeValue createSqlTypeValue(final User object) {
+	public SqlTypeValue createSqlTypeValue(final Person object) {
 		return new AbstractSqlTypeValue() {
 
 			/**
@@ -57,10 +58,11 @@ public class UserMapper extends SqlParameterMapper<User> {
 			@Override
 			protected Object createTypeValue(Connection con, int sqlType,
 				String typeName) throws SQLException {
-				Object[] attributes = new Object[3];
+				Object[] attributes = new Object[4];
 				attributes[0] = object.getId();
 				attributes[1] = object.getName();
-				attributes[2] = object.getDepartment();
+				attributes[2] = object.getSalary();
+				attributes[3] = object.getDateOfBirth();
 
 				return con.createStruct(typeName, attributes);
 			}
