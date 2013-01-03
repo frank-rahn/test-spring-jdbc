@@ -23,7 +23,7 @@ CREATE FUNCTION searchPersons( -- Suche Personen
 	p_persons	OUT	s_Person[]
 ) AS
 $BODY$  -- Beginn der PL/pgSQL Funktion
-	DECLARE -- Deklarationsblocko
+	DECLARE -- Deklarationsblock
 		i			INTEGER;
 		p			s_Person;
 		dateOfBirth	DATE := current_date;
