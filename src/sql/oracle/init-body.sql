@@ -5,7 +5,7 @@ AS
 	PROCEDURE searchPersons( -- Suche Personen
 		p_num		IN	INTEGER,
 		p_user		IN	s_User,
-		p_persons	OUT	_s_Person
+		p_persons	OUT	a_Person
 	) IS
 		i			INTEGER;
 		p			s_Person;
@@ -13,7 +13,7 @@ AS
 	BEGIN -- Ausführungsteil
 		DBMS_OUTPUT.PUT_LINE('Die Stored Procedure searchPersons wurde aufgerufen. User=:'||:p_user);
 
-		p_persons := _s_Person();
+		p_persons := a_Person();
 
 		FOR i IN 1..p_num
 		LOOP -- Fake der Suche
