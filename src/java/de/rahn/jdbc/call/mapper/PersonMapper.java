@@ -10,6 +10,7 @@ import java.util.Date;
 import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
+import org.springframework.stereotype.Component;
 
 import de.rahn.jdbc.call.entity.Person;
 
@@ -17,6 +18,7 @@ import de.rahn.jdbc.call.entity.Person;
  * Mapping zwischen einer {@link Struct} und einem {@link Person}.
  * @author Frank W. Rahn
  */
+@Component
 public class PersonMapper extends SqlParameterMapper<Person> {
 
 	/**
