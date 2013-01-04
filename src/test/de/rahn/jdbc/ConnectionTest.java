@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,14 +22,17 @@ public class ConnectionTest {
 	@Autowired
 	private JdbcTemplate template;
 
+	@Value("#{jdbc.testquery}")
+	private String query;
+
 	/**
 	 * Teste die Datenbankverbindung.
 	 */
 	@Test
 	public void testDatabaseConnection() {
-		int result = template.queryForInt("SELECT 1");
+		int result = template.queryForInt(query);
 
-		assertThat("Testquery 'SELECT 1' fehlgeschlagen", result, is(1));
+		assertThat("Testquery '" + query + "' fehlgeschlagen", result, is(1));
 	}
 
 }
