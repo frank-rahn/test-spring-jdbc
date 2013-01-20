@@ -9,27 +9,22 @@ import java.sql.SQLException;
 import java.sql.Struct;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Dieser Test testet den Verbindungsaufbau zur Datenbank.
  * @author Frank W. Rahn
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-public class ConnectionTest {
+public abstract class AbstractConnectionTest {
 
 	@Autowired
-	private JdbcTemplate template;
+	protected JdbcTemplate template;
 
 	@Value("${jdbc.testquery}")
-	private String query;
+	protected String query;
 
 	/**
 	 * Teste die Datenbankverbindung mit einer Testabfrage.

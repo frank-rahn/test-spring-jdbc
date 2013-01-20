@@ -14,7 +14,11 @@ public class Starter {
 		// Initialisierung von Spring
 		ApplicationContext ctx =
 			new ClassPathXmlApplicationContext(
-				"/META-INF/spring/context-app.xml");
+				new String[] { "/META-INF/spring/context-app.xml" }, false);
+
+		((ClassPathXmlApplicationContext) ctx).getEnvironment()
+			.setActiveProfiles("Oracle");
+		((ClassPathXmlApplicationContext) ctx).refresh();
 
 		// Aufruf der Anwendung
 		Runnable service = ctx.getBean("application", Runnable.class);

@@ -15,8 +15,14 @@
 		Dieses ist die zentrale Konfiguration für die Datenbank.
 	</description>
 
-	<!-- Property-Configurer Definitions -->
-	<context:property-placeholder location="classpath:META-INF/db.properties" />
+	<beans profile="PostgreSQL">
+		<!-- Property-Configurer Definitions -->
+		<context:property-placeholder location="classpath:META-INF/postgresql.properties" />
+	</beans>
+	<beans profile="Oracle">
+		<!-- Property-Configurer Definitions -->
+		<context:property-placeholder location="classpath:META-INF/oracle.properties" />
+	</beans>
 
 	<!-- Treiber zur PostgreSQL Datenbank -->
 	<bean id="dataSource"
