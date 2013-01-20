@@ -15,6 +15,14 @@
 		Dieses ist die zentrale Konfiguration für die Datenbank.
 	</description>
 
+	<!-- Treiber zur Datenbank -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}"
+		p:url="${jdbc.url}"
+		p:username="${jdbc.username}"
+		p:password="${jdbc.password}" />
+
 	<beans profile="PostgreSQL">
 		<!-- Property-Configurer Definitions -->
 		<context:property-placeholder location="classpath:META-INF/postgresql.properties" />
@@ -23,13 +31,5 @@
 		<!-- Property-Configurer Definitions -->
 		<context:property-placeholder location="classpath:META-INF/oracle.properties" />
 	</beans>
-
-	<!-- Treiber zur PostgreSQL Datenbank -->
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="${jdbc.driverClassName}"
-		p:url="${jdbc.url}"
-		p:username="${jdbc.username}"
-		p:password="${jdbc.password}" />
 
 </beans>
