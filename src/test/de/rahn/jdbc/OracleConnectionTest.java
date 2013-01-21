@@ -58,4 +58,5 @@ public class OracleConnectionTest extends AbstractConnectionTest {
 		assertThat("Die Datenbankaktion nicht das richtige Ergebnis", result,
 			equalTo("Eine einfache Funktion"));
 	}
+
 }
