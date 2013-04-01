@@ -45,7 +45,7 @@ public abstract class AbstractConnectionTest {
 
 			@Override
 			public Object doInConnection(Connection con) throws SQLException {
-				return con.createStruct("s_User", null);
+				return con.createStruct("S_USER", null);
 			}
 
 		});
