@@ -52,7 +52,7 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 			new SimpleJdbcCall(dataSource).withProcedureName("searchPersons")
 				.declareParameters(
 					new SqlParameter("p_user", Types.STRUCT, "s_user"),
-					new SqlOutParameter("p_persons", Types.ARRAY, "_s_person",
+					new SqlOutParameter("p_persons", Types.ARRAY, "a_person",
 						personMapper));
 
 		jdbcCall.compile();
