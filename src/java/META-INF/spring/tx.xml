@@ -15,11 +15,6 @@
 		Dieses ist die zentrale Konfiguration für die Datenbank.
 	</description>
 
-	<!-- Die Transformation der Ausnahmen -->
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"
-		p:proxyTargetClass="true" />
-
 	<!-- Einen Transaktionmanager erzeugen -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
