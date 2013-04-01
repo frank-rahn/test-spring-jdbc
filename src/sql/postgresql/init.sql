@@ -1,6 +1,7 @@
 DROP FUNCTION IF EXISTS searchPersons(
 	INTEGER, s_User
 ) CASCADE;
+DROP DOMAIN IF EXISTS a_Person CASCADE;
 DROP TYPE IF EXISTS s_User CASCADE;
 DROP TYPE IF EXISTS s_Person CASCADE;
 
@@ -17,10 +18,12 @@ CREATE TYPE s_Person AS ( -- Eine Person
 	dateOfBirth	DATE
 );
 
+CREATE DOMAIN a_Person AS s_Person[]; -- Collection der Person
+
 CREATE FUNCTION searchPersons( -- Suche Personen
 	p_num		IN	INTEGER,
 	p_user		IN	s_User,
-	p_persons	OUT	s_Person[]
+	p_persons	OUT	a_Person
 ) AS
 $BODY$  -- Beginn der PL/pgSQL Funktion
 	DECLARE -- Deklarationsblock
