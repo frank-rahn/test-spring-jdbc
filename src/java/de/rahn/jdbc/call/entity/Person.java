@@ -17,7 +17,7 @@ public class Person {
 
 	private Date dateOfBirth;
 
-	// Ab hier Getter und Setter...
+	// Ab hier Getter, Setter und toString...
 
 	/**
 	 * @return the id
@@ -73,6 +73,16 @@ public class Person {
 	 */
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", salary=" + salary
+			+ ", dateOfBirth=" + dateOfBirth + "]";
 	}
 
 }

@@ -12,7 +12,7 @@ public class User {
 
 	private String department;
 
-	// Ab hier Getter und Setter...
+	// Ab hier Getter, Setter und toString...
 
 	/**
 	 * @return the id
@@ -54,6 +54,16 @@ public class User {
 	 */
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", department="
+			+ department + "]";
 	}
 
 }
