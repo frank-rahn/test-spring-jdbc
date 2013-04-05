@@ -1,6 +1,8 @@
 package de.rahn.jdbc.call.dao;
 
-import java.sql.Types;
+import static java.sql.Types.ARRAY;
+import static java.sql.Types.STRUCT;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import de.rahn.jdbc.call.entity.Person;
 import de.rahn.jdbc.call.entity.User;
-import de.rahn.jdbc.call.mapper.PersonMapper;
+import de.rahn.jdbc.call.mapper.PersonsMapper;
 import de.rahn.jdbc.call.mapper.UserMapper;
 
 /**
@@ -33,7 +35,7 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	private UserMapper userMapper;
 
 	@Autowired
-	private PersonMapper personMapper;
+	private PersonsMapper personsMapper;
 
 	/**
 	 * @param dataSource the dataSource to set
@@ -51,9 +53,9 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 		jdbcCall =
 			new SimpleJdbcCall(dataSource).withProcedureName("searchPersons")
 				.declareParameters(
-					new SqlParameter("p_user", Types.STRUCT, "s_user"),
-					new SqlOutParameter("p_persons", Types.ARRAY, "a_person",
-						personMapper));
+					new SqlParameter("p_user", STRUCT, "S_USER"),
+					new SqlOutParameter("p_persons", ARRAY, "A_PERSON",
+						personsMapper));
 
 		jdbcCall.compile();
 	}
@@ -65,7 +67,7 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	@Override
 	public Person[] searchPersons(int num, User user) {
 		Map<String, Object> in = new HashMap<>();
-		in.put("p_num", 10);
+		in.put("p_num", num);
 		in.put("p_user", userMapper.createSqlTypeValue(user));
 
 		Map<String, Object> out = jdbcCall.execute(in);
