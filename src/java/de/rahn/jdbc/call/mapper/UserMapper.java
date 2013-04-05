@@ -1,13 +1,9 @@
 package de.rahn.jdbc.call.mapper;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Struct;
 
-import org.springframework.jdbc.core.SqlReturnType;
-import org.springframework.jdbc.core.SqlTypeValue;
-import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
 import org.springframework.stereotype.Component;
 
 import de.rahn.jdbc.call.entity.User;
@@ -17,54 +13,35 @@ import de.rahn.jdbc.call.entity.User;
  * @author Frank W. Rahn
  */
 @Component
-public class UserMapper extends SqlParameterMapper<User> {
+public class UserMapper extends SqlParameterMapper<User, Struct> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see SqlReturnType#getTypeValue(CallableStatement, int, int, String)
+	 * @see SqlParameterMapper#createObject(Object)
 	 */
 	@Override
-	public Object getTypeValue(CallableStatement cs, int paramIndex,
-		int sqlType, String typeName) throws SQLException {
-		Struct struct = cs.getObject(paramIndex, Struct.class);
-
-		if (struct == null) {
-			return null;
-		}
-
-		Object[] attributes = struct.getAttributes();
-
-		User user = new User();
-		user.setId((String) attributes[0]);
-		user.setName((String) attributes[1]);
-		user.setDepartment((String) attributes[2]);
-
-		return user;
+	protected User createObject(final Struct struct) throws SQLException {
+		return new User() {
+			{
+				Object[] attributes = struct.getAttributes();
+				setId((String) attributes[0]);
+				setName((String) attributes[1]);
+				setDepartment((String) attributes[2]);
+			}
+		};
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see SqlParameterMapper#createSqlTypeValue(Object)
+	 * @see SqlParameterMapper#createSqlValue(Connection, Object)
 	 */
 	@Override
-	public SqlTypeValue createSqlTypeValue(final User object) {
-		return new AbstractSqlTypeValue() {
+	protected Struct createSqlValue(Connection con, String typeName, User user)
+		throws SQLException {
 
-			/**
-			 * @see AbstractSqlTypeValue#createTypeValue(Connection, int,
-			 * String)
-			 */
-			@Override
-			protected Object createTypeValue(Connection con, int sqlType,
-				String typeName) throws SQLException {
-				Object[] attributes = new Object[3];
-				attributes[0] = object.getId();
-				attributes[1] = object.getName();
-				attributes[2] = object.getDepartment();
-
-				return con.createStruct(typeName, attributes);
-			}
-		};
+		return con
+			.createStruct(typeName, new Object[] { user.getId(),
+				user.getName(), user.getDepartment() });
 	}
 
 }
