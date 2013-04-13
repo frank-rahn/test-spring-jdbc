@@ -11,7 +11,7 @@ import java.sql.Statement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.postgresql.jdbc4.Jdbc4Connection;
-import org.springframework.jdbc.UncategorizedSQLException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +35,7 @@ public class PostgreSQLConnectionTest extends AbstractConnectionTest {
 	 * @see de.rahn.jdbc.AbstractConnectionTest#testDatabaseConnectionPerApi()
 	 */
 	@Override
-	@Test(expected = UncategorizedSQLException.class)
+	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void testDatabaseConnectionPerApi() {
 		super.testDatabaseConnectionPerApi();
 	}
