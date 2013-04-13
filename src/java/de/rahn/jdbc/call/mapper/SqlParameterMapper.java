@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Struct;
 
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
@@ -62,7 +63,7 @@ public abstract class SqlParameterMapper<UserObject, JdbcType> implements
 			protected final Object createTypeValue(Connection con, int sqlType,
 				String typeName) throws SQLException {
 
-				return createSqlValue(con, typeName, userObject);
+				return createSqlValue(con, userObject);
 			}
 		};
 	}
@@ -70,12 +71,20 @@ public abstract class SqlParameterMapper<UserObject, JdbcType> implements
 	/**
 	 * Konvertiere das Userobjekt in ein JDBC-Datenbankobjekt.
 	 * @param con die Datenbankverbindung
-	 * @param typeName der JDBC-Typname
 	 * @param userObject das Userobjekt
 	 * @return das neue JDBC-Datenbankobjekt
 	 * @throws SQLException falls ein Fehler bei den Datenbankzugriffen auftritt
 	 */
-	protected abstract JdbcType createSqlValue(Connection con, String typeName,
+	protected abstract JdbcType createSqlValue(Connection con,
 		UserObject userObject) throws SQLException;
+
+	/**
+	 * Erzeuge einen {@link SqlParameter} für diesen Mapper.
+	 * @param paramaterName der Name des Parameters
+	 * @param outParameter Ist der Parameter ein Ausgabe?
+	 * @return der Parameter.
+	 */
+	public abstract SqlParameter createSqlParameter(String paramaterName,
+		boolean outParameter);
 
 }
