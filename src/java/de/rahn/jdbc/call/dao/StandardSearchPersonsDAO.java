@@ -31,23 +31,16 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	/** 3. Parameter der Stored Procedure. */
 	private static final String P_PERSONS = "p_persons";
 
-	private DataSource dataSource;
-
 	private SimpleJdbcCall jdbcCall;
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Autowired
 	private UserMapper userMapper;
 
 	@Autowired
 	private PersonsMapper personsMapper;
-
-	/**
-	 * @param dataSource the dataSource to set
-	 */
-	@Autowired
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	/**
 	 * Initialisiere das DAO.
