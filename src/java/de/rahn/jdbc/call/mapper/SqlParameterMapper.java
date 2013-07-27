@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
 
 /**
- * Ein abstracter Mapper, zwischen den User Objekt und dem JDBC Datenbankobjekt
+ * Ein abstrakter Mapper, zwischen den User Objekt und dem JDBC Datenbankobjekt
  * mappt.
  * @author Frank W. Rahn
  * @param <UserObject> das Userobjekt
