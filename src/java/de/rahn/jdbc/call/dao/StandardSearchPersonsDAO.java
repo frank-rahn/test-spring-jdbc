@@ -22,6 +22,9 @@ import de.rahn.jdbc.call.mapper.UserMapper;
 @Repository
 public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 
+	/** Name der Stored Procedure. */
+	private static final String NAME = "searchPersons";
+
 	/** 1. Parameter der Stored Procedure. */
 	private static final String P_NUM = "p_num";
 
@@ -30,8 +33,6 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 
 	/** 3. Parameter der Stored Procedure. */
 	private static final String P_PERSONS = "p_persons";
-
-	private SimpleJdbcCall jdbcCall;
 
 	@Autowired
 	private DataSource dataSource;
@@ -42,13 +43,15 @@ public class StandardSearchPersonsDAO implements SearchPersonsDAO {
 	@Autowired
 	private PersonsMapper personsMapper;
 
+	private SimpleJdbcCall jdbcCall;
+
 	/**
 	 * Initialisiere das DAO.
 	 */
 	@PostConstruct
 	public void initialize() {
 		jdbcCall =
-			new SimpleJdbcCall(dataSource).withProcedureName("searchPersons")
+			new SimpleJdbcCall(dataSource).withProcedureName(NAME)
 				.declareParameters(
 					userMapper.createSqlParameter(P_USER, false),
 					personsMapper.createSqlParameter(P_PERSONS, true));
