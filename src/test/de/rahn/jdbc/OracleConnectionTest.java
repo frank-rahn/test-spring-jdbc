@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Struct;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +42,7 @@ public class OracleConnectionTest extends AbstractConnectionTest {
 						stmt.executeQuery("SELECT fn_info() FROM dual");
 					try {
 						if (result.next()) {
-							return result.getString(1);
+							return result.getObject(1, Struct.class).toString();
 						} else {
 							return null;
 						}
